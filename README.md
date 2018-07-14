@@ -1,2 +1,2 @@
 # packertracker
-The Regatta Tropicals Packer Tracker web-app
+The Regatta Tropicals Packer Tracker webapp
