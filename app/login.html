@@ -1,0 +1,96 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Packer Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        #center {
+            min-width: 400px;
+            max-width: 30%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+    <script>
+        var lastClick = 0;
+        var delay = 350;
+        async function login() {
+            if (lastClick >= (Date.now() - delay)) {
+                return;
+            }
+            lastClick = Date.now();
+
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Accept': 'application/text',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: document.getElementById('username').value,
+                    password: document.getElementById('password').value
+                })
+            });
+            if (res.status !== 200) {
+                document.getElementById('login-message').innerHTML = `
+                    <i class="material-icons">error</i> Invalid username or password!
+                `;
+                return;
+            } else {
+                document.getElementById('login-message').innerHTML = '';
+            }
+            fetch('/app.html', {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Accept': 'application/text',
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        window.addEventListener('load', () => {
+            const username = document.getElementById('username');
+            const password = document.getElementById('password');
+
+            username.focus();
+
+            username.addEventListener('keypress', (ev) => {
+                if (ev.code === "Enter") {
+                    password.focus();
+                }
+            });
+            password.addEventListener('keypress', (ev) => {
+                if (ev.code === "Enter") {
+                    login();
+                }
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <div id="center">
+        <form>
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username">
+            </div>
+            <div>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password">
+            </div>
+        </form>
+        <div id="login-message" class="valign-wrapper red-text accent-4"></div>  
+        <div class="center-align">         
+            <button onclick="login()" class="waves-effect waves-light btn">Log In</button>
+        </div>
+    </div>
+</body>
+</html>

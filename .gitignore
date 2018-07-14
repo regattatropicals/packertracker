@@ -64,3 +64,8 @@ typings/
 
 # VS Code:
 .vscode
+# next.js build output
+.next
+
+# Webpack build output
+dist/
