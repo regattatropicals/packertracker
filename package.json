@@ -4,10 +4,10 @@
   "description": "The Regatta Tropicals Packer Tracker webapp",
   "main": "api.js",
   "scripts": {
-    "start": "node api.js",
+    "start": "node ./api/api.js",
     "build": "webpack --mode production",
-    "api:dev": "nodemon -w . -w ./initdb.sql api.js",
-    "static:dev": "webpack-dev-server --mode development --hot --inline"
+    "api:dev": "nodemon -w . -w ./api/initdb.sql ./api/api.js",
+    "app:dev": "webpack-dev-server --mode development --hot --inline"
   },
   "repository": {
     "type": "git",

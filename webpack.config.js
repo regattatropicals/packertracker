@@ -7,19 +7,25 @@ const minificationOptions = {
 };
 
 const appHtmlPlugin = new HtmlWebPackPlugin({
-    template: './static/app.html',
+    template: './app.html',
     filename: './app.html',
     minify: minificationOptions
 });
 
 const loginHtmlPlugin = new HtmlWebPackPlugin({
-    template: './static/login.html',
+    template: './login.html',
     filename: './login.html',
     inject: false,
     minify: minificationOptions
 });
 
 module.exports = {
+    context: __dirname + '/app',
+    entry: './index.js',
+    output: {
+        path: __dirname + '/dist',
+        filename: 'app.js'
+    },
     module: {
         rules: [
             {
@@ -33,14 +39,14 @@ module.exports = {
                 test: /\.css$/,
                 use: [
                     {
-                        loader: "style-loader"
+                        loader: 'style-loader'
                     },
                     {
-                        loader: "css-loader",
+                        loader: 'css-loader',
                         options: {
                             modules: true,
                             importLoaders: 1,
-                            localIdentName: "[name]_[local]_[hash:base64]",
+                            localIdentName: '[name]_[local]_[hash:base64]',
                             sourceMap: true,
                             minimize: true
                         }
@@ -54,11 +60,11 @@ module.exports = {
 
     devServer: {
         https: true,
-        contentBase: 'dist',
+        contentBase: 'app',
         watchContentBase: true,
         index: 'login.html',
         proxy: {
-            '/api/*': 'http://localhost:33456'
+            '/api/*': `http://localhost:${process.env['APP_PORT']}`
         }
     }
 };

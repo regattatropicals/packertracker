@@ -11,7 +11,7 @@ async function initdb() {
         password            : DBPASS,
         multipleStatements  : true
     });
-    const initDBscript = fs.readFileSync('initdb.sql', 'utf8')
+    const initDBscript = fs.readFileSync('./api/initdb.sql', 'utf8');
     await initDBconnection.query(initDBscript);
     await initDBconnection.end();
 
