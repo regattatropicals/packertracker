@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const mysql = require('promise-mysql');
 
 async function initdb() {
@@ -11,7 +12,7 @@ async function initdb() {
         password            : DBPASS,
         multipleStatements  : true
     });
-    const initDBscript = fs.readFileSync('./api/initdb.sql', 'utf8');
+    const initDBscript = fs.readFileSync(path.resolve('api/initdb.sql'), 'utf8');
     await initDBconnection.query(initDBscript);
     await initDBconnection.end();
 
