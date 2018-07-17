@@ -16,8 +16,8 @@
         }
     </style>
     <script>
-        var lastClick = 0;
-        var delay = 350;
+        let lastClick = 0;
+        let delay = 350;
         async function login() {
             if (lastClick >= (Date.now() - delay)) {
                 return;
@@ -47,18 +47,18 @@
             }
         }
 
-        window.addEventListener('load', () => {
-            const username = document.getElementById('username');
-            const password = document.getElementById('password');
+        window.addEventListener('load', function () {
+            var username = document.getElementById('username');
+            var password = document.getElementById('password');
 
             username.focus();
 
-            username.addEventListener('keypress', (ev) => {
+            username.addEventListener('keypress', function (ev) {
                 if (ev.code === "Enter") {
                     password.focus();
                 }
             });
-            password.addEventListener('keypress', (ev) => {
+            password.addEventListener('keypress', function (ev) {
                 if (ev.code === "Enter") {
                     login();
                 }

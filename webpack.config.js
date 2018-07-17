@@ -24,7 +24,7 @@ module.exports = {
     entry: './index.js',
     output: {
         path: __dirname + '/dist',
-        filename: 'app.js'
+        filename: 'static/app.js'
     },
     module: {
         rules: [
