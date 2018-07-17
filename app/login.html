@@ -28,7 +28,7 @@
                 method: 'POST',
                 credentials: 'include',
                 headers: {
-                    'Accept': 'application/text',
+                    'Accept': 'application/html',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -43,15 +43,8 @@
                 return;
             } else {
                 document.getElementById('login-message').innerHTML = '';
+                location.reload(true);
             }
-            fetch('/app.html', {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Accept': 'application/text',
-                    'Content-Type': 'application/json'
-                }
-            });
         }
 
         window.addEventListener('load', () => {

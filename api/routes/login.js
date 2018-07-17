@@ -7,9 +7,7 @@ const router = express.Router();
 
 router.post('/', async (req, res, next) => {
     /* If the login request already has a valid JWT attached to it,
-     * resend the old, valid token.
-     * This is a precaution to minimize the number of concurrently
-     * valid tokens for a given user.
+     * redirect to the app page.
      */
     if (await isValidJWT(req.cookies.access_token)) {
         return res.sendStatus(200);
@@ -44,7 +42,6 @@ router.post('/', async (req, res, next) => {
         const isRaspi = credentialLookup[0].is_raspi;
 
         const loginResult = await verifyPassword(password, salt, saltedHash);
-        
         if (loginResult) {
             const employeeLookup = await query(`
                 SELECT employee_firstname, employee_lastname FROM Employee
@@ -84,7 +81,7 @@ router.post('/', async (req, res, next) => {
             return res.clearCookie('access_token').cookie('access_token', jwt, {
                 httpOnly: true,
                 secure: true
-            }).sendStatus(200);
+            }).redirect('/');
         } else {
             return res.sendStatus(401);
         }

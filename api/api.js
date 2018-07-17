@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
@@ -25,6 +26,7 @@ if (!JWTSEC) {
 }
 
 const login = require('./routes/login');
+const index = require('./routes/index');
 
 const app = express();
 
@@ -38,7 +40,7 @@ app.use(expressJWT({
         }
         return null;
     }
-}).unless({path: ['/api/login']}));
+}).unless({path: ['/', '/api/login']}));
 
 app.use((err, req, res, next) => {
     if (err.name === 'UnauthorizedError') {
@@ -46,8 +48,8 @@ app.use((err, req, res, next) => {
     }
 });
 app.use(express.json());
-
 app.use('/api/login', login);
+app.use('/', index);
 
 app.listen(PORT, (err) => {
     if (err) {

@@ -29,9 +29,9 @@ function isValidJWT(token) {
     return new Promise((resolve, reject) => {
         jwt.verify(token, JWTSEC, {}, (err, decoded) => {
             if (err) {
-                resolve(false);
+                return resolve(false);
             }
-            resolve(true);
+            return resolve(true);
         })
     })
 }

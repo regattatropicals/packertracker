@@ -60,11 +60,10 @@ module.exports = {
 
     devServer: {
         https: true,
-        contentBase: 'app',
+        contentBase: 'dist',
         watchContentBase: true,
-        index: 'login.html',
         proxy: {
-            '/api/*': `http://localhost:${process.env['APP_PORT']}`
+            '*': `http://localhost:${process.env['APP_PORT']}`
         }
     }
 };
