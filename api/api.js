@@ -42,9 +42,16 @@ app.use(expressJWT({
     }
 }).unless({path: ['/', '/api/login']}));
 
-app.use((err, req, res, next) => {
+/* Prevent unathenticated users from accessing the API. */
+app.use('/api/*', (err, req, res, next) => {
     if (err.name === 'UnauthorizedError') {
       res.sendStatus(401);
+    }
+});
+/* Redirect unauthenticated users to the login page in all other scenarios. */
+app.use('/*', (err, req, res, next) => {
+    if (err.name === 'UnauthorizedError') {
+        res.sendFile(path.resolve('dist/login.html'));
     }
 });
 app.use(express.json());
