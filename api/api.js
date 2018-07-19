@@ -50,7 +50,7 @@ app.use((err, req, res, next) => {
 app.use(express.json());
 app.use('/api/login', login);
 app.use('/static', express.static(path.resolve('dist/static')));
-app.use('/', index);
+app.use('/*', index);
 
 app.listen(PORT, (err) => {
     if (err) {

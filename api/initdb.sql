@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS `ptdb`.`Line` (
   `line_id` INT NOT NULL AUTO_INCREMENT,
   `location_id` INT NOT NULL,
   `line_name` VARCHAR(40) NOT NULL,
+  `deleted` BOOL NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`line_id`),
   FOREIGN KEY (`location_id`) REFERENCES `Location`(`location_id`)
 );

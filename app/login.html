@@ -24,6 +24,19 @@
             }
             lastClick = Date.now();
 
+            document.getElementById('login-button').innerHTML = `
+                <div class="preloader-wrapper small active">
+                    <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                    </div>
+                </div>
+            `;
             const res = await fetch('/api/login', {
                 method: 'POST',
                 credentials: 'include',
@@ -40,6 +53,7 @@
                 document.getElementById('login-message').innerHTML = `
                     <i class="material-icons">error</i> Invalid username or password!
                 `;
+                document.getElementById('login-button').innerHTML = 'Log In';
                 return;
             } else {
                 document.getElementById('login-message').innerHTML = '';
@@ -81,8 +95,8 @@
             </div>
         </form>
         <div id="login-message" class="valign-wrapper red-text accent-4"></div>  
-        <div class="center-align">         
-            <button onclick="login()" class="waves-effect waves-light btn">Log In</button>
+        <div class="center-align">
+            <button onclick="login()" id="login-button" class="waves-effect waves-light btn">Log In</button>
         </div>
     </div>
 </body>

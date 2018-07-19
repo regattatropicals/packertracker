@@ -8,7 +8,7 @@ const minificationOptions = {
 
 const appHtmlPlugin = new HtmlWebPackPlugin({
     template: './app.html',
-    filename: './app.html',
+    filename: './index.html',
     minify: minificationOptions
 });
 
@@ -21,7 +21,7 @@ const loginHtmlPlugin = new HtmlWebPackPlugin({
 
 module.exports = {
     context: __dirname + '/app',
-    entry: './index.js',
+    entry: './app.js',
     output: {
         path: __dirname + '/dist',
         filename: 'static/app.js'
@@ -60,10 +60,10 @@ module.exports = {
 
     devServer: {
         https: true,
-        contentBase: 'dist',
-        watchContentBase: true,
         proxy: {
-            '*': `http://localhost:${process.env['APP_PORT']}`
-        }
+            '/api/*': `http://localhost:${process.env['APP_PORT']}`
+        },
+        publicPath: '/',
+        historyApiFallback: true
     }
 };
