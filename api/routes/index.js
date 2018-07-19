@@ -10,7 +10,7 @@ router.get('/', async (req, res, next) => {
      * send the app page. Otherwise, send the login page.
      */
     if (await isValidJWT(req.cookies.access_token)) {
-        return res.sendFile(path.resolve('dist/app.html'));
+        return res.sendFile(path.resolve('dist/index.html'));
     } else {
         return res.sendFile(path.resolve('dist/login.html'));
     }

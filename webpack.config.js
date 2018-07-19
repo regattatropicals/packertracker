@@ -7,7 +7,7 @@ const minificationOptions = {
 };
 
 const appHtmlPlugin = new HtmlWebPackPlugin({
-    template: './app.html',
+    template: './index.html',
     filename: './index.html',
     minify: minificationOptions
 });
