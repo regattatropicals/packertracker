@@ -23,8 +23,9 @@ module.exports = {
     context: __dirname + '/app',
     entry: './app.js',
     output: {
+        publicPath: '/',
         path: __dirname + '/dist',
-        filename: 'static/app.js'
+        filename: 'static/app.[hash].js'
     },
     module: {
         rules: [
@@ -64,6 +65,8 @@ module.exports = {
             '/api/*': `http://localhost:${process.env['APP_PORT']}`
         },
         publicPath: '/',
-        historyApiFallback: true
+        historyApiFallback: {
+            index: '/index.html'
+        }
     }
 };

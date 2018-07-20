@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 
 import Nav from './components/Nav.js';
-import Shifts from './components/Shifts.js';
-import Report from './components/Report.js';
-import PackingInfo from './components/PackingInfo';
+import Shifts from './components/shifts/Shifts.js';
+import Report from './components/report/Report.js';
+import PackingInfo from './components/packing-info/PackingInfo';
 
 class App extends React.Component {
   render() {
