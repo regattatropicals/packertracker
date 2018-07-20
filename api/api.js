@@ -49,7 +49,7 @@ app.use('/api/*', (err, req, res, next) => {
     }
 });
 /* Redirect unauthenticated users to the login page in all other scenarios. */
-app.use('/*', (err, req, res, next) => {
+app.use((err, req, res, next) => {
     if (err.name === 'UnauthorizedError') {
         res.sendFile(path.resolve('dist/login.html'));
     }

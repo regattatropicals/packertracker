@@ -1,4 +1,5 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const minificationOptions = {
     removeAttributeQuotes: true,
@@ -19,9 +20,19 @@ const loginHtmlPlugin = new HtmlWebPackPlugin({
     minify: minificationOptions
 });
 
+const scannerCopyPlugin = new CopyWebpackPlugin([
+    {
+        from: '../node_modules/scandit-sdk/build/scandit-engine-sdk.min.js',
+        to: 'static/scandit-engine-sdk.min.js'
+    }, {
+        from: '../node_modules/scandit-sdk/build/scandit-engine-sdk.wasm',
+        to: 'static/scandit-engine-sdk.wasm'
+    }
+]);
+
 module.exports = {
     context: __dirname + '/app',
-    entry: './app.js',
+    entry: [ 'babel-polyfill', './app.js' ],
     output: {
         publicPath: '/',
         path: __dirname + '/dist',
@@ -57,7 +68,7 @@ module.exports = {
         ]
     },
 
-    plugins: [ appHtmlPlugin, loginHtmlPlugin ],
+    plugins: [ appHtmlPlugin, loginHtmlPlugin, scannerCopyPlugin ],
 
     devServer: {
         https: true,
