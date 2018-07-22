@@ -1,6 +1,5 @@
 const path = require('path');
 const express = require('express');
-express.static.mime.types["wasm"] = "application/wasm";
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const expressJWT = require('express-jwt');
@@ -59,7 +58,6 @@ app.use(express.json());
 
 app.use('/api/login', login);
 
-app.use('/static', express.static(path.resolve('dist/static')));
 app.use('/*', index);
 
 app.listen(PORT, (err) => {
