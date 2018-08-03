@@ -1,6 +1,6 @@
 const express = require('express');
 
-const query = require('../utils/db');
+const pool = require('../utils/db');
 const { verifyPassword, buildJWT, isValidJWT } = require('../utils/auth');
 
 const router = express.Router();
@@ -25,11 +25,12 @@ router.post('/', async (req, res, next) => {
     }
 
     try {
-        const credentialLookup = await query(`
+        const credentialLookup = (await pool.query(`
             SELECT employee_id, salt, salted_hash, is_admin, is_raspi FROM Credentials
             WHERE username = ?
         `,
-        [ username ]);
+        [ username ]))[0];
+
         if (credentialLookup.length == 0) {
             /* Username is not stored in the DB, so authorization fails.*/
             return res.sendStatus(401);
@@ -43,8 +44,9 @@ router.post('/', async (req, res, next) => {
 
         const loginResult = await verifyPassword(password, salt, saltedHash);
         if (loginResult) {
-            const employeeLookup = await query(`
-                SELECT employee_firstname, employee_lastname FROM Employee
+            const employeeLookup = await pool.query(`
+                SELECT employee_firstname, employee_lastname
+                FROM Employee
                 WHERE employee_id = ?
             `,
             [ employeeId ]);
@@ -52,8 +54,9 @@ router.post('/', async (req, res, next) => {
             const firstName = employeeLookup[0].employee_firstname;
             const lastName = employeeLookup[0].employee_lastname;
             
-            const managerLookup = await query(`
-                SELECT manager_id FROM Manager
+            const managerLookup = await pool.query(`
+                SELECT manager_id
+                FROM Manager
                 WHERE employee_id = ?
             `,
             [ employeeId ]);
@@ -83,7 +86,7 @@ router.post('/', async (req, res, next) => {
                 secure: true
             }).redirect('/');
         } else {
-            return res.sendStatus(401);
+            return res.clearCookie('access_token').sendStatus(401);
         }
 
     } catch(err) {

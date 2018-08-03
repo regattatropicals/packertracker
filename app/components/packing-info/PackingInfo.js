@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 
 import EditCommodityInfo from './commodity/EditCommodityInfo';
-import EditEmployeeInfo from './employees/EditEmployeeInfo';
+import EditPackerInfo from './packers/EditPackerInfo';
 import EditWarehouseInfo from './warehouse/EditWarehouseInfo';
 import PackingInfoMenu from './PackingInfoMenu';
 
@@ -11,8 +11,8 @@ class PackingInfo extends React.Component {
       return (
             <div>
                 <Switch>
-                    <Route path={this.props.match.url + '/employees'}
-                        component={EditEmployeeInfo} />
+                    <Route path={this.props.match.url + '/packers'}
+                        component={EditPackerInfo} />
                     <Route path={this.props.match.url + '/warehouse'}
                         component={EditWarehouseInfo} />
                     <Route path={this.props.match.url + '/commodity'}

@@ -1,6 +1,7 @@
 import React from "react";
-
 import { Link } from 'react-router-dom';
+
+import Button from '@material-ui/core/Button';
 
 class Report extends React.Component {
     render() {
@@ -12,7 +13,7 @@ class Report extends React.Component {
                 <label>Location:</label>
                 <label>Line:</label>
                 <label>Commodity:</label>
-                <button>Generate</button>
+                <Button variant="raised" color="primary">Generate</Button>
             </div>
         );
     }

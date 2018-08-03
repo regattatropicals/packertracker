@@ -1,11 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const mysql = require('promise-mysql');
+const mysql = require('mysql2/promise');
 
-async function initdb() {
-    const DBHOST = process.env['RDS_HOSTNAME']
-    const DBUSER = process.env['RDS_USERNAME']
-    const DBPASS = process.env['RDS_PASSWORD']
+const DBHOST = process.env['RDS_HOSTNAME']
+const DBUSER = process.env['RDS_USERNAME']
+const DBPASS = process.env['RDS_PASSWORD']
+
+async function initDB() {
     const initDBconnection = await mysql.createConnection({
         host                : DBHOST,
         user                : DBUSER,
@@ -15,23 +16,14 @@ async function initdb() {
     const initDBscript = fs.readFileSync(path.resolve('api/initdb.sql'), 'utf8');
     await initDBconnection.query(initDBscript);
     await initDBconnection.end();
-
-    return pool = mysql.createPool({
-        connectionLimit     : 10,
-        host                : DBHOST,
-        user                : DBUSER,
-        password            : DBPASS,
-        database            : 'ptdb'
-    });
 }
 
-function makeQuerier(poolPromise) {
-    const query = (sql, args) => {
-        return poolPromise.then((pool) => {
-            return pool.query(sql, args);
-        });
-    }
-    return query
-}
+initDB();
 
-module.exports = makeQuerier(initdb());
+module.exports = mysql.createPool({
+    connectionLimit     : 10,
+    host                : DBHOST,
+    user                : DBUSER,
+    password            : DBPASS,
+    database            : 'ptdb'
+});

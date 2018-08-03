@@ -1,14 +1,40 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+
 class PackingInfoMenu extends React.Component {
     render() {
       return (
-            <div>
-                <Link to="/packing-info/employees">Edit Employee Info</Link>
-                <Link to="/packing-info/warehouse">Edit Warehouse Info</Link>
-                <Link to="/packing-info/commodity">Edit Commodity Info</Link>
-            </div>
+        <Grid container={true} alignItems='center' spacing={40} direction='column' justify='center' style={{marginTop: '25px'}}>
+            <Grid item>
+                <Button component={Link}
+                        to='/packing-info/packers'
+                        variant='raised'
+                        size='large'>
+                    Edit Packer Info
+                </Button>
+            </Grid>
+
+            <Grid item>
+                <Button component={Link}
+                        to='/packing-info/warehouse'
+                        variant='raised'
+                        size='large'>
+                    Edit Warehouse Info
+                </Button>
+            </Grid>
+
+            <Grid item>
+                <Button component={Link}
+                        to='/packing-info/commodity'
+                        variant='raised'
+                        size='large'>
+                    Edit Commodity Info
+                </Button>
+            </Grid>
+        </Grid>
         );
     }
 }

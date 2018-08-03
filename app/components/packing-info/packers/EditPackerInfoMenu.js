@@ -1,37 +1,28 @@
-import React from 'react';
+import React from "react";
 import { Link } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
-class Nav extends React.Component {
+class EditPackerInfoMenu extends React.Component {
     render() {
-        return (
+      return (
             <Grid container={true} alignItems='center' spacing={40} direction='column' justify='center' style={{marginTop: '25px'}}>
                 <Grid item>
                     <Button component={Link}
-                            to='/shifts'
+                            to='/packing-info/packers/add'
                             variant='raised'
                             size='large'>
-                        Manage Shifts
+                        Add Packer
                     </Button>
                 </Grid>
                 
                 <Grid item>
                     <Button component={Link}
-                            to='/report'
+                            to='/packing-info/packers/list'
                             variant='raised'
                             size='large'>
-                        Generate Report
-                    </Button>
-                </Grid>
-
-                <Grid item>
-                    <Button component={Link}
-                            to='/packing-info'
-                            variant='raised'
-                            size='large'>
-                        Edit Packing Info
+                        Packer List
                     </Button>
                 </Grid>
             </Grid>
@@ -39,4 +30,4 @@ class Nav extends React.Component {
     }
 }
 
-export default Nav;
+export default EditPackerInfoMenu;

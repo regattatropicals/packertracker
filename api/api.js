@@ -27,6 +27,7 @@ if (!JWTSEC) {
 
 const login = require('./routes/login');
 const index = require('./routes/index');
+const packers = require('./routes/packers');
 
 const app = express();
 
@@ -57,6 +58,7 @@ app.use((err, req, res, next) => {
 app.use(express.json());
 
 app.use('/api/login', login);
+app.use('/api/packing-info/packers', packers);
 
 app.use('/*', index);
 
