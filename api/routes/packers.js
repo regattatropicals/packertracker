@@ -28,38 +28,44 @@ router.post('/', async (req, res, next) => {
             VALUES(?, ?, ?)
         `,
         [ packerFirstName, packerMiddleInitial, packerLastName ]))[0];
-        console.log('1')
         const employeeId = addEmployeeResults.insertId
         const addPackerResults = (await connection.query(`
             INSERT INTO Packer (packer_code, employee_id)
             VALUES(?, ?)
         `,
         [ packerBadgeID, employeeId ]))[0];
-        console.log('2');
         connection.commit();
     } catch(err) {
         console.log(err);
         connection.rollback();
         return res.sendStatus(500);
     }
+    connection.release();
     
     return res.sendStatus(200);
 });
 
 router.get('/', async (req, res, next) => {
-    const allPackers = (await pool.query(`
-        SELECT packer_id, packer_code, employee_firstname, employee_middleinitial, employee_lastname
-        FROM Packer
-        INNER JOIN Employee ON Packer.employee_id = Employee.employee_id
-        WHERE packer_isactive = True
-    `))[0];
+    let allPackers;
+    try {
+        allPackers = (await pool.query(`
+            SELECT packer_id, packer_code, employee_firstname, employee_middleinitial, employee_lastname
+            FROM Packer
+            INNER JOIN Employee ON Packer.employee_id = Employee.employee_id
+            WHERE packer_isactive = True
+        `))[0];
+    } catch(err) {
+        console.log(err);
+        return res.sendStatus(500);
+    }
+    
     return res.json(allPackers);
 });
 
 router.delete('/', async (req, res, next) => {
-    let packerId;
+    let packer_id;
     try {
-        packerId = req.body.packerId;
+        packer_id = req.body.packer_id;
     } catch (err) {
         /* The request was malformed, so return a client error. */
         console.log(err);
@@ -69,27 +75,20 @@ router.delete('/', async (req, res, next) => {
     const connection = await pool.getConnection();
     connection.beginTransaction();
     try {
-        
-        const addEmployeeResults = (await connection.query(`
-            INSERT INTO Employee (employee_firstname, employee_middleinitial, employee_lastname)
-            VALUES(?, ?, ?)
+        const setInactivePackerResults = (await connection.query(`
+            UPDATE Packer
+            SET packer_isactive=False
+            WHERE packer_id=?
         `,
-        [ packerFirstName, packerMiddleInitial, packerLastName ]))[0];
-        console.log('1')
-        const employeeId = addEmployeeResults.insertId
-        const addPackerResults = (await connection.query(`
-            INSERT INTO Packer (packer_code, employee_id)
-            VALUES(?, ?)
-        `,
-        [ packerBadgeID, employeeId ]))[0];
-        console.log('2');
+        [ packer_id ]))[0];
+
         connection.commit();
     } catch(err) {
         console.log(err);
         connection.rollback();
         return res.sendStatus(500);
     }
-    
+    connection.release();
     return res.sendStatus(200);
 });
 

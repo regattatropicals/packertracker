@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS `ptdb`.`Credentials` (
   `email` VARCHAR(254) NOT NULL,
   `salt` BINARY(32) NOT NULL,
   `salted_hash` BINARY(96) NOT NULL,
-  `is_admin` BOOL NOT NULL DEFAULT FALSE,
-  `is_raspi` BOOL NOT NULL DEFAULT FALSE,
+  `is_admin` BOOL NOT NULL DEFAULT False,
+  `is_raspi` BOOL NOT NULL DEFAULT False,
   PRIMARY KEY (`username`),
   FOREIGN KEY (`employee_id`) REFERENCES `Employee`(`employee_id`)
 );
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `ptdb`.`Location` (
 CREATE TABLE IF NOT EXISTS `ptdb`.`Line` (
   `line_id` INT NOT NULL AUTO_INCREMENT,
   `line_name` VARCHAR(40) NOT NULL,
-  `line_inactive` BOOL NOT NULL DEFAULT FALSE,
+  `line_inactive` BOOL NOT NULL DEFAULT False,
   `location_id` INT NOT NULL,
   PRIMARY KEY (`line_id`),
   FOREIGN KEY (`location_id`) REFERENCES `Location`(`location_id`)
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `ptdb`.`Line` (
 CREATE TABLE IF NOT EXISTS `ptdb`.`Position` (
   `position_id` INT NOT NULL AUTO_INCREMENT,
   `position_code` VARCHAR(60) NOT NULL,
-  `position_inactive` BOOL NOT NULL DEFAULT FALSE,
+  `position_inactive` BOOL NOT NULL DEFAULT False,
   `line_id` INT NOT NULL,
   PRIMARY KEY (`position_id`),
   FOREIGN KEY (`line_id`) REFERENCES `Line`(`line_id`)

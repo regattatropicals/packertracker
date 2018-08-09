@@ -1,46 +1,38 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, withRouter } from 'react-router-dom';
 import { Provider } from 'mobx-react';
 
 import Store from './store';
-import './scanner';
+import createScanner from './scanner';
 
-import Nav from './components/Nav.js';
-import Shifts from './components/shifts/Shifts.js';
-import Report from './components/report/Report.js';
-import PackingInfo from './components/packing-info/PackingInfo';
+import AlwaysPresent from './components/AlwaysPresent.js';
+import MainView from './components/MainView.js';
 
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
+const MainViewWithRouter = withRouter(MainView);
+
 class App extends React.Component {
+  componentDidMount() {
+    createScanner();
+  }
+
   render() {
     return (
-      <Provider store={Store}>
-        <div>
-          <CssBaseline />
-          <div id="scandit-barcode-picker"
-               style={{position: 'absolute', visibility: 'hidden', width: '100%', zIndex: '3', pointerEvents: 'none'}}>
+      <BrowserRouter>
+        <Provider store={Store}>
+          <div>
+            <CssBaseline />
+            <AlwaysPresent />
+            <MainViewWithRouter />
           </div>
-          <AppBar position='sticky'>
-            <Button component={Link} to='/' fullWidth={true} size='large' variant='flat'>Packer Tracker</Button>
-          </AppBar>
-          <Switch>
-            <Route path="/shifts" component={Shifts}/>
-            <Route path="/report" component={Report}/>
-            <Route path="/packing-info" component={PackingInfo}/>
-            <Route path="/" component={Nav}/>
-          </Switch> 
-        </div>
-      </Provider>
+        </Provider>
+      </BrowserRouter>
     );
   }
 }
 
 ReactDOM.render((
-  <BrowserRouter>
     <App/>
-  </BrowserRouter>
 ), document.getElementById('app'));

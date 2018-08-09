@@ -1,4 +1,5 @@
 import { decorate, observable, action, configure } from "mobx";
+
 configure({enforceActions: true})
 
 class Store {

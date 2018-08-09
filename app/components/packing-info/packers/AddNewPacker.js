@@ -3,8 +3,14 @@ import { inject, observer } from 'mobx-react';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+
+import AddIcon from '@material-ui/icons/Add';
+import CameraIcon from '@material-ui/icons/CameraEnhance';
+import CloseIcon from '@material-ui/icons/Close';
 
 const AddNewPacker = inject('store')(observer(
     class AddNewPacker extends React.Component {
@@ -94,10 +100,7 @@ const AddNewPacker = inject('store')(observer(
                         <Button variant="raised"
                                 onClick={this.props.store.currentlyScanning ? null : this.onScanButtonPress }>
                             Scan Packer Badge
-                            <i className="material-icons" 
-                               style={{verticalAlign: 'middle'}}>
-                                camera_enhance
-                            </i>
+                            <CameraIcon style={{marginLeft: '9px'}} />
                         </Button>
                     </div>
                 );
@@ -110,10 +113,7 @@ const AddNewPacker = inject('store')(observer(
                                 onClick={ this.onClearScanButtonPress }
                                 style={{marginLeft: '20px'}}>
                             Scan Again
-                            <i className="material-icons"
-                               style={{color: 'red', verticalAlign: 'middle'}}>
-                                close
-                            </i>
+                            <CloseIcon color='error' style={{marginLeft: '9px'}}/>
                         </Button>
                     </div>
                     
@@ -123,29 +123,36 @@ const AddNewPacker = inject('store')(observer(
             return (
                 <Grid container alignItems='center' direction='column' spacing={40}>
                     <Card raised={true} style={{marginTop: '30px', minWidth: '60%', maxWidth: '80%'}}>
-                        <h3>Add a new packer:</h3>
-                        <Grid container alignItems='center' direction='column' spacing={24}>
-                            <Grid item>
-                                <TextField label="Packer First Name"
-                                        onChange={this.changeStateOnEvent('packerFirstName')}
-                                        value={this.state.packerFirstName}
-                                        fullWidth={true}/>
+                        <CardHeader title='Add a new packer:' />
+                            
+                        <CardContent>
+                            <Grid container alignItems='center' direction='column' spacing={24}>
+                                <Grid item style={{width: '100%', maxWidth: '450px'}}>
+                                    <TextField label="Packer First Name"
+                                            onChange={this.changeStateOnEvent('packerFirstName')}
+                                            value={this.state.packerFirstName}
+                                            fullWidth={true} />
+                                </Grid>
+                                <Grid item style={{width: '100%', maxWidth: '450px'}}>
+                                    <TextField label="(Optional) Middle Initial"
+                                            onChange={this.changeStateOnEvent('packerMiddleInitial')}
+                                            error={this.state.packerMiddleInitial.length > 1}
+                                            value={this.state.packerMiddleInitial}
+                                            fullWidth={true} />
+                                            
+                                </Grid>
+                                <Grid item style={{width: '100%', maxWidth: '450px'}}>
+                                    <TextField label="Packer Last Name"
+                                            onChange={this.changeStateOnEvent('packerLastName')}
+                                            value={this.state.packerLastName}
+                                            fullWidth={true} />
+                                </Grid>
+                                <Grid item style={{marginTop: '10px', marginBottom: '15px'}}>
+                                {badgeSpot}  
+                                </Grid>
                             </Grid>
-                            <Grid item>
-                                <TextField label="(Optional) Middle Initial"
-                                        onChange={this.changeStateOnEvent('packerMiddleInitial')}
-                                        error={this.state.packerMiddleInitial.length > 1}
-                                        value={this.state.packerMiddleInitial} />
-                            </Grid>
-                            <Grid item>
-                                <TextField label="Packer Last Name"
-                                        onChange={this.changeStateOnEvent('packerLastName')}
-                                        value={this.state.packerLastName} />
-                            </Grid>
-                            <Grid item style={{marginBottom: '30px'}}>
-                            {badgeSpot}  
-                            </Grid>
-                        </Grid>
+                        </CardContent>
+                        
                     </Card>
                     
                     <Grid item>
@@ -154,6 +161,7 @@ const AddNewPacker = inject('store')(observer(
                                 disabled={!this.canAddPacker()}
                                 onClick={this.onAddPacker}>
                             Add Packer
+                            <AddIcon style={{marginLeft: '9px'}} />
                         </Button>
                     </Grid>
                 </Grid>
