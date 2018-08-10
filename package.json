@@ -1,5 +1,5 @@
 {
-  "name": "packertracker-api",
+  "name": "packertracker",
   "version": "1.0.0",
   "description": "The Regatta Tropicals Packer Tracker webapp",
   "main": "api.js",
@@ -7,7 +7,9 @@
     "start": "node ./api/api.js",
     "build": "webpack --mode production",
     "api:dev": "nodemon -w ./api -w ./api/initdb.sql ./api/api.js",
-    "app:dev": "webpack-dev-server --mode development --hot --inline --progress --colors --history-api-fallback"
+    "app:dev": "webpack-dev-server --mode development --hot --inline --progress --colors --history-api-fallback",
+    "lint": "eslint --ext .js --ext .jsx ./api ./app ./webpack.config.js",
+    "lint:fix": "eslint --ext .js --ext .jsx --fix ./api ./app ./webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -43,12 +45,20 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.6",
     "babel-loader": "^7.1.4",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^0.28.11",
+    "eslint": "^5.3.0",
+    "eslint-loader": "^2.1.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-json": "^1.2.1",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.10.0",
+    "eslint-plugin-security": "^1.4.0",
     "html-webpack-plugin": "^3.2.0",
     "nodemon": "^1.17.5",
     "style-loader": "^0.21.0",

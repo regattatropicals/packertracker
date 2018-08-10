@@ -1,43 +1,44 @@
 const scrypt = require('scrypt');
 const jwt = require('jsonwebtoken');
 
-const JWTSEC = process.env['JWTSEC']
+const JWTSEC = process.env.JWTSEC;
 
-function verifyPassword(password, salt, saltedHash) {
-    saltedPassword = salt.toString('ascii') + password;
+const verifyPassword = function verifyPassword(password, salt, saltedHash) {
+  const saltedPassword = salt.toString('ascii') + password;
 
-    return scrypt.verifyKdf(saltedHash, saltedPassword);
-}
+  return scrypt.verifyKdf(saltedHash, saltedPassword);
+};
 
-function buildJWT(payload, expiration) {
-    return new Promise((resolve, reject) => {
-        options = {};
-        if (expiration) {
-            options['expiresIn'] = expiration;
-        }
+const buildJWT = function buildJWT(payload, expiration) {
+  return new Promise((resolve, reject) => {
+    const options = {};
 
-        jwt.sign(payload, JWTSEC, options, (err, token) => {
-            if (err) {
-                reject(err);
-            }
-            resolve(token);
-        });
-    })
-}
+    if (expiration) {
+      options.expiresIn = expiration;
+    }
 
-function isValidJWT(token) {
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, JWTSEC, {}, (err, decoded) => {
-            if (err) {
-                return resolve(false);
-            }
-            return resolve(true);
-        })
-    })
-}
+    jwt.sign(payload, JWTSEC, options, (err, token) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(token);
+    });
+  });
+};
+
+const isValidJWT = function isValidJWT(token) {
+  return new Promise((resolve) => {
+    jwt.verify(token, JWTSEC, {}, (err) => {
+      if (err) {
+        return resolve(false);
+      }
+      return resolve(true);
+    });
+  });
+};
 
 module.exports = {
-    verifyPassword: verifyPassword,
-    buildJWT: buildJWT,
-    isValidJWT: isValidJWT
-}
+  verifyPassword,
+  buildJWT,
+  isValidJWT,
+};
